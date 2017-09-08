@@ -13,12 +13,19 @@ class AirspaceChecker {
     let isOK;
 
     try {
+      // const params = {
+      //   full: true,
+      //   geometry: `LINESTRING (${origin[0]} ${origin[1]}, ${dest[0]} ${dest[1]})`,
+      //   buffer: 3,
+      //   geometry_format: 'geojson',
+      // };
       const params = {
-        full: true,
-        geometry: `LINESTRING (${origin[0]} ${origin[1]}, ${dest[0]} ${dest[1]})`,
-        buffer: 3,
+        geometry: `{ "type": "LineString", "coordinates": [[${origin[1]}, ${origin[0]}], [${dest[1]}, ${dest[0]}]] }`,
+        types: 'airport',
         geometry_format: 'geojson',
-      };
+        full: true,
+        buffer: 3,
+      }
       const query = querystring.stringify(params);
       const options = {
         headers: {
@@ -27,7 +34,7 @@ class AirspaceChecker {
       };
       const response = await (await fetch(`https://api.airmap.jp/airspace/v2/search?${query}`, options)).json();
 
-      isOK = response.length === 0;
+      isOK = response.data.length === 0;
     } catch (err) {
       console.error('Error getting stuff', err);
     }
