@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const lcc = require('line-circle-collision');
 
 class FakeAirspaceChecker {

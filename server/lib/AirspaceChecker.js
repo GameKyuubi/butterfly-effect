@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const querystring = require('querystring');
 const fetch = require('isomorphic-fetch');
 
@@ -19,7 +21,7 @@ class AirspaceChecker {
         geometry_format: 'geojson',
         full: true,
         buffer: 3,
-      }
+      };
       const query = querystring.stringify(params);
       const options = {
         headers: {

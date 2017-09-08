@@ -12,7 +12,7 @@ describe('AirspaceChecker', () => {
 
   it('should fly in good zones', async () => {
     const origin = [36.016789, 138.2744983];
-    const dest = [36.030399,138.3148293];
+    const dest = [36.030399, 138.3148293];
     const result = await AirspaceChecker.checkSpace(origin, dest);
     assert(result === true, 'drone should be allow to fly here');
   });

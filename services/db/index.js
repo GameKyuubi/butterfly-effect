@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 const Knex = require('knex');
 
-module.exports = function (config) {
+module.exports = (config) => {
   const knex = Knex({
     client: config.client,
     port: config.connection.port,
