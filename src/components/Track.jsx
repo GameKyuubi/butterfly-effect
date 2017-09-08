@@ -31,8 +31,13 @@ const Track = props => (
         label="Search"
         className="tracking-search-button"
         onClick={() => {
-          track(document.getElementById('tracking-number').value)
-            .then(trackedPackage => props.updateTrackedPackage(trackedPackage));
+          const trackingNumber = document.getElementById('tracking-number').value;
+          const tracker = window.setInterval(() => {
+          track(trackingNumber)
+            .then(trackedPackage => trackedPackage.status && trackedPackage.status === 'OK' ?
+              props.updateTrackedPackage(trackedPackage) :
+              clearInterval(tracker));
+          }, 1000);
         }}
       />
     </div>
