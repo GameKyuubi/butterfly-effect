@@ -13,12 +13,6 @@ class AirspaceChecker {
     let isOK;
 
     try {
-      // const params = {
-      //   full: true,
-      //   geometry: `LINESTRING (${origin[0]} ${origin[1]}, ${dest[0]} ${dest[1]})`,
-      //   buffer: 3,
-      //   geometry_format: 'geojson',
-      // };
       const params = {
         geometry: `{ "type": "LineString", "coordinates": [[${origin[1]}, ${origin[0]}], [${dest[1]}, ${dest[0]}]] }`,
         types: 'airport',
