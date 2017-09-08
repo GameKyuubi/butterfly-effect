@@ -5,8 +5,8 @@ class AirspaceChecker {
   /**
    * Determines if the drone is allowed to fly on this flight path
    * 
-   * @param {*} origin Array of 2 values: x & y
-   * @param {*} destination Array of 2 values: x & y
+   * @param {*} origin Array of 2 values: latitude & longitude
+   * @param {*} destination Array of 2 values: latitude & longitude
    * @returns {boolean} True if the drone can fly on this segment, false if not
    */
   static async checkSpace(origin, dest) {
@@ -15,7 +15,7 @@ class AirspaceChecker {
     try {
       const params = {
         full: true,
-        geometry: `LINESTRING (${origin[1]} ${origin[0]}, ${dest[1]} ${dest[0]})`,
+        geometry: `LINESTRING (${origin[0]} ${origin[1]}, ${dest[0]} ${dest[1]})`,
         buffer: 3,
         geometry_format: 'geojson',
       };

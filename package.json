@@ -33,7 +33,7 @@
     "test:stylelint": "stylelint \"**/*.css\"",
     "test:unit": "react-scripts test --env=jsdom",
     "test:server": "mocha --recursive server/test/",
-    "test": "npm run test:eslint && npm run test:stylelint && npm run test:unit",
+    "test": "npm run test:eslint && npm run test:stylelint && npm run test:unit && yarn test:server",
     "eject": "react-scripts eject",
     "migrate": "knex migrate:latest --knexfile services/db/knexfile.js",
     "rollback": "knex migrate:rollback --knexfile services/db/knexfile.js"

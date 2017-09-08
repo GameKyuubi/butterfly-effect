@@ -4,8 +4,8 @@ class FakeAirspaceChecker {
   /**
    * Determines if the drone is allowed to fly on this flight path
    * 
-   * @param {*} origin Array of 2 values: x & y
-   * @param {*} destination Array of 2 values: x & y
+   * @param {*} origin Array of 2 values: latitude & longitude
+   * @param {*} destination Array of 2 values: latitude & longitude
    * @returns {boolean} True if the drone can fly on this segment, false if not
    */
   static async checkSpace(origin, dest) {
@@ -889,7 +889,7 @@ class FakeAirspaceChecker {
       const airports = JSON.parse(text);
 
       const result = airports.reduce((accumulator, airport) => {
-        const intersects = lcc(origin, dest, [airport.lon, airport.lat], RADIUS_IN_DEGREES);
+        const intersects = lcc(origin, dest, [airport.lat, airport.lon], RADIUS_IN_DEGREES);
         return accumulator || intersects;
       }, false);
 
