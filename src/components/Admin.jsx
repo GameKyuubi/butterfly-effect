@@ -85,15 +85,15 @@ const AdminMap = withGoogleMap(props => (
           icon={stationIcon}
         />)) :
       <div /> }
-      { props.showStations ?
+    { props.showStations ?
       props.stations.map(station => (
         <Circle
           key={station.id}
           center={{ lat: station.lat, lng: station.lng }}
           radius={4000}
           options={{
-            strokeColor: `grey`,
-            fillColor: `grey`,
+            strokeColor: 'grey',
+            fillColor: 'grey',
             strokeWeight: 1,
           }}
         />)) :

@@ -10,11 +10,13 @@ module.exports = (services) => {
   /* GET stations listing. */
   router.get('/stations', async (req, res) => {
     try {
-      const stations = (await services.db.stations.list()).map(station => { return {
-        id: station.id,
-        lat: parseFloat(station.latitude),
-        lng: parseFloat(station.longitude),
-      }});
+      const stations = (await services.db.stations.list()).map(station =>
+        Object.assign({
+          id: station.id,
+          lat: parseFloat(station.latitude),
+          lng: parseFloat(station.longitude),
+        }),
+      );
       console.log(stations);
       res.status(200).json(stations);
     } catch (err) {
