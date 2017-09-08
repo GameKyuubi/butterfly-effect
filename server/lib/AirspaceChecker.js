@@ -18,7 +18,6 @@ class AirspaceChecker {
         buffer: 3,
         geometry_format: 'geojson'
       };
-      console.log('LINESTRING=', params.geometry);
       let query = querystring.stringify(params);
       const options = {
         headers: {
@@ -27,7 +26,6 @@ class AirspaceChecker {
       };
       let response = await (await fetch(`https://api.airmap.jp/airspace/v2/search?${query}`, options)).json();
 
-      console.log('resulting longitude=', response.data[0].longitude);
       return response.length === 0;
     } catch (err) {
       console.error('Error getting stuff', err);

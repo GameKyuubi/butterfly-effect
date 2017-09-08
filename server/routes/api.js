@@ -7,7 +7,6 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-  console.log("HELLO FROM API");
   res.json({ page: 'Api' });
 });
 
