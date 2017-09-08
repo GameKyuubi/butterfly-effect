@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import { withGoogleMap, GoogleMap, Marker, Circle } from 'react-google-maps';
+=======
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+>>>>>>> Display drone on admin page
 
 import Paper from 'material-ui/Paper';
 import Icon from 'material-ui/SvgIcon';
@@ -36,6 +40,7 @@ const Admin = (props) => {
       mapStyle={props.mapStyle}
       stations={props.stations}
       showStations={props.showStations}
+      drones={props.drones}
     />
     <Paper className="details-pane">
       {
@@ -71,6 +76,13 @@ const Admin = (props) => {
   </div>);
 };
 
+const droneIcon = {
+  path: 'M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z',
+  anchor: { x: 5, y: 5 },
+  fillColor: '#40C4FF',
+  fillOpacity: 1.0,
+};
+
 const AdminMap = withGoogleMap(props => (
   <GoogleMap
     defaultZoom={12}
@@ -98,13 +110,17 @@ const AdminMap = withGoogleMap(props => (
           }}
         />)) :
       <div /> }
+    { props.drones.map(drone =>
+      <Marker key={drone.id} position={{ lat: drone.lat, lng: drone.lng }} icon={droneIcon} />,
+    )}
   </GoogleMap>
 ));
 
 const mapStateToProps = state => ({
+  drones: state.drones,
+  selectedDrone: state.selectedDrone,
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
-  selectedDrone: state.selectedDrone,
   settingPaneOpen: state.settingPaneOpen,
   showStations: state.showStations,
   stations: state.stations,
@@ -129,6 +145,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 Admin.propTypes = {
+  selectedDrone: PropTypes.shape(),
+  drones: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapCenter: PropTypes.shape().isRequired,
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedDrone: PropTypes.shape(),
