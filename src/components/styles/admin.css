@@ -1,0 +1,30 @@
+#dashboard {
+  position: relative;
+  height: 0;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.details-pane {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  padding: 10px;
+}
+
+.setting-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.setting-pane {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.setting-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

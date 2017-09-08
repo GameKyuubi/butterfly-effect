@@ -1,0 +1,20 @@
+header {
+  height: 10%;
+  min-height: 120px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+#menu {
+  align-items: flex-end;
+}
+
+#logo-container {
+  width: 150px;
+}
+
+#logo {
+  width: 150px;
+  object-fit: contain;
+  padding-bottom: 5px;
+}

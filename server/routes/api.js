@@ -2,9 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-  res.json({ page: 'Api' });
-});
+module.exports = (services) => {
+  /* GET stations listing. */
+  router.get('/stations', async (req, res) => {
+    try {
+      const stations = await services.db.stations.list();
+      res.status(200).send(stations);
+    } catch (err) {
+      throw err;
+    }
+  });
 
-module.exports = router;
+  return router;
+};

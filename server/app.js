@@ -3,9 +3,11 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const api = require('./routes/api');
-
 const app = express();
+
+const config = require('./config.js');
+const services = require('../services')(config);
+const api = require('./routes/api')(services);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

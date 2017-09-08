@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html,
+#root,
+#router {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  min-height: 100%;
+}
+
+.flex { display: flex; }
+
+.column { flex-direction: column; }
+
+.grow { flex-grow: 1; }
+
+.restrict-width {
+  width: 800px;
+  min-width: 70%;
+  max-width: 95%;
+}
+
+#main {
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+}

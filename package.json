@@ -1,5 +1,5 @@
 {
-  "name": "tokyobaptist.church",
+  "name": "butterfly-effect",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,10 +9,15 @@
     "es6-promise": "^4.1.1",
     "express": "^4.15.4",
     "isomorphic-fetch": "^2.2.1",
+    "knex": "^0.13.0",
+    "material-ui": "^0.19.1",
     "morgan": "^1.8.2",
     "node-googleplaces": "^0.1.2",
+    "pg": "^7.3.0",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-google-maps": "^7.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.12",
@@ -27,7 +32,9 @@
     "test:stylelint": "stylelint \"**/*.css\"",
     "test:unit": "react-scripts test --env=jsdom",
     "test": "npm run test:eslint && npm run test:stylelint && npm run test:unit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "migrate": "knex migrate:latest --knexfile services/db/knexfile.js",
+    "rollback": "knex migrate:rollback --knexfile services/db/knexfile.js"
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
