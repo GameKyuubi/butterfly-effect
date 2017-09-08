@@ -16,4 +16,9 @@ router.get('/checksegment', (req, res, next) => {
   res.json(result);
 });
 
+router.get('/fakechecksegment', (req, res, next) => {
+  const result = FakeAirspaceChecker.checkSpace(origin, dest);
+  res.json(result);
+});
+
 module.exports = router;
