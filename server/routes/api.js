@@ -113,9 +113,9 @@ module.exports = (services) => {
     }
   });
 
-  router.post('/tracknum', async (req, res) => {
+  router.post('/track', async (req, res) => {
     try {
-      const tracknum = req.body.id;
+      const tracknum = req.body.trackingNumber;
       const trip = await services.db.trip.search(tracknum);
       const tripid = trip.id;
       const segments = await services.db.segment.search(tripid);

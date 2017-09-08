@@ -7,6 +7,7 @@ const initialState = {
   selectedDrone: null,
   stations: [],
   stationsLoaded: false,
+  trackedPackage: null,
   settingPaneOpen: false,
   showStations: true,
   route: [],
@@ -35,6 +36,8 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { dialogOpen: true, dialogMessage: action.dialogMessage });
     case 'CLOSE_DIALOG':
       return Object.assign({}, state, { dialogOpen: false });
+    case 'UPDATE_TRACKED_PACKAGE':
+      return Object.assign({}, state, { trackedPackage: action.trackedPackage });
     default:
       return state;
   }
