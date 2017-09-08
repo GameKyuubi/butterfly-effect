@@ -2,7 +2,6 @@ const querystring = require('querystring');
 const fetch = require('isomorphic-fetch');
 
 class AirspaceChecker {
-
   /**
    * Determines if the drone is allowed to fly on this flight path
    * 
@@ -11,25 +10,28 @@ class AirspaceChecker {
    * @returns {boolean} True if the drone can fly on this segment, false if not
    */
   static async checkSpace(origin, dest) {
+    let isOK;
+
     try {
       const params = {
         full: true,
         geometry: `LINESTRING (${origin[1]} ${origin[0]}, ${dest[1]} ${dest[0]})`,
         buffer: 3,
-        geometry_format: 'geojson'
+        geometry_format: 'geojson',
       };
-      let query = querystring.stringify(params);
+      const query = querystring.stringify(params);
       const options = {
         headers: {
           'x-api-key': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHwyREp4bE5wQzVleHZRZVVNQkIwTHhTbHBNTW1lIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnw5dzhaS0F2VVc5WUt2eFNCV1lsbEV0dkthbDI1Iiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfFdZV21scGFVbTRvNnBsaDU4RWV2QUhHUkI1WnkiLCJpYXQiOjE0OTk4MjQwNDV9.NJtsnXi4DGDKZDO1DNSmcKvlrVAB50f0ESDXSRZdVa4',
         },
       };
-      let response = await (await fetch(`https://api.airmap.jp/airspace/v2/search?${query}`, options)).json();
+      const response = await (await fetch(`https://api.airmap.jp/airspace/v2/search?${query}`, options)).json();
 
-      return response.length === 0;
+      isOK = response.length === 0;
     } catch (err) {
       console.error('Error getting stuff', err);
     }
+    return isOK;
   }
 }
 

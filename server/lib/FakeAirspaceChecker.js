@@ -1,10 +1,6 @@
-const querystring = require('querystring');
 const lcc = require('line-circle-collision');
-const fs = require('fs');
-const { promisify } = require('util');
 
 class FakeAirspaceChecker {
-
   /**
    * Determines if the drone is allowed to fly on this flight path
    * 
@@ -13,12 +9,12 @@ class FakeAirspaceChecker {
    * @returns {boolean} True if the drone can fly on this segment, false if not
    */
   static async checkSpace(origin, dest) {
+    let isOK;
+
     try {
       const KILOMETERS_IN_DEGREES = 1 / 111;
       const RADIUS_IN_KILOMETERS = 3;
       const RADIUS_IN_DEGREES = RADIUS_IN_KILOMETERS * KILOMETERS_IN_DEGREES;
-      const readFileAsync = promisify(fs.readFile);
-      // const text = await readFileAsync('../data/airports.json', 'utf-8');
       const text = `
 [
     {
@@ -888,15 +884,21 @@ class FakeAirspaceChecker {
         "lat": "35.75",
         "size": "large"
     }
-]`
+]`;
 
       const airports = JSON.parse(text);
 
-      const result = airports.reduce((acc, ap) => acc || lcc(origin, dest, [ap.lon, ap.lat], RADIUS_IN_DEGREES), false); 
-      return !result;
+      const result = airports.reduce((accumulator, airport) => {
+        const intersects = lcc(origin, dest, [airport.lon, airport.lat], RADIUS_IN_DEGREES);
+        return accumulator || intersects;
+      }, false);
+
+      isOK = !result;
     } catch (err) {
       console.error('Error getting stuff', err);
     }
+
+    return isOK;
   }
 }
 
