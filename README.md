@@ -1,4 +1,4 @@
-# butterflyEffect
+# Butterfly Effect
 
 ## Summary
 
@@ -17,9 +17,17 @@ INSERT MORE SET UP
 
 To start:
 
-```
+Migrations:
+
+add knexfile.js
 npm install
-```
+npm install knex
+npm install pg --save
+add script for migrate and rollback migrate in package.js
+
+For running migrate :
+npm run migrate 
+
 
 OR
 
