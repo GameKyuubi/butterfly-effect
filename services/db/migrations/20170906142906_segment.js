@@ -9,6 +9,7 @@ const setup = knex =>
     t.foreign('source_id').references('place.id');
     t.integer('des_id').unsigned();
     t.foreign('des_id').references('place.id');
+    t.enu('status', ['inprogress', 'completed', 'waiting']);
   });
 
 const rollback = knex =>

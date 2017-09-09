@@ -16,5 +16,6 @@ module.exports = (config) => {
     place: require('./place')(knex),
     trip: require('./trip')(knex),
     segment: require('./segment')(knex),
+    telemetry: require('./telemetry')(knex),
   };
 };

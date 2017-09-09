@@ -9,6 +9,7 @@ module.exports = (knex, Segment) => {
           des_id: params.des_id,
           trip_id: params.trip_id,
           drone_id: params.drone_id,
+          status: params.status,
         });
 
       const places = await knex('segment')

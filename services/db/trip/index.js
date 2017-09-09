@@ -11,6 +11,7 @@ const Trip = function (dbTrip) {
 module.exports = (knex) => {
   return {
     create: require('./create')(knex, Trip),
+    search: require('./search')(knex, Trip),
   };
 };
 
