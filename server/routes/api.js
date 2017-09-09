@@ -25,7 +25,6 @@ const distance = (a, b) => {
 };
 
 module.exports = (services) => {
-
   const getStations = async () => {
     const stations = (await services.db.place.list()).map((station) => {
       return {
@@ -39,7 +38,7 @@ module.exports = (services) => {
     return stations.filter(station =>
       distance(tokyo, station) < 15,
     );
-  }
+  };
 
   /* GET stations */
   router.get('/stations', async (req, res) => {
