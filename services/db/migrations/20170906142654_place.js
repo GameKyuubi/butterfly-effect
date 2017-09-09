@@ -3,7 +3,7 @@ const setup = knex =>
     t.increments().index();
     t.decimal('latitude', 12, 8);
     t.decimal('longitude', 12, 8);
-    t.enu('type', ['origin', 'destinition', 'station']);
+    t.enu('type', ['source', 'destination', 'station']);
   });
 
 const rollback = knex =>

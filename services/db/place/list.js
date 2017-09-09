@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 
-module.exports = (knex, Station) => {
+module.exports = (knex, Place) => {
   return async () => {
     try {
       const stations = await knex('place')
@@ -8,7 +8,7 @@ module.exports = (knex, Station) => {
         .select();
       const stationsList = [];
       stations.forEach((station) => {
-        stationsList.push(new Station(station));
+        stationsList.push(new Place(station));
       });
       return stationsList;
     } catch (err) {
