@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+/* eslint-disable func-names */
 const Knex = require('knex');
 
 module.exports = (config) => {
@@ -12,6 +13,8 @@ module.exports = (config) => {
   });
 
   return {
-    stations: require('./stations')(knex),
+    place: require('./place')(knex),
+    trip: require('./trip')(knex),
+    segment: require('./segment')(knex),
   };
 };
