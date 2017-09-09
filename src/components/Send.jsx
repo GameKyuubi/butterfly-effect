@@ -41,11 +41,11 @@ const Track = props => (
             .then((response) => {
               props.updateRoute(response.path);
               if (response.message === 'Could not find location.') {
-                alert('Could not find location.');
+                props.openDialog('Could not find location.');
               } else if (response.message === 'Error occured while fetching from API.') {
-                alert('Error occured while fetching from API.');
+                props.openDialog('Error occured while fetching from API.');
               } else if (response.status === 'ok' && response.path.length === 0) {
-                alert('Sorry this path is not supported for more information contact us.');
+                props.openDialog('Sorry, this path is currently not available. For more information please contact us.');
               }
             });
         }}
