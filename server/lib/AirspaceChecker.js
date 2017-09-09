@@ -32,7 +32,7 @@ class AirspaceChecker {
 
       isOK = response.data.length === 0;
     } catch (err) {
-      console.error('Error getting stuff', err);
+      console.error('Error contacting Airmap API:', err);
     }
     return isOK;
   }
