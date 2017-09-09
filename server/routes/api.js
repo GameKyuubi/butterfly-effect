@@ -25,29 +25,38 @@ const distance = (a, b) => {
 };
 
 module.exports = (services) => {
+
+  const getStations = async () => {
+    const stations = (await services.db.place.list()).map((station) => {
+      return {
+        id: station.id,
+        lat: parseFloat(station.latitude),
+        lng: parseFloat(station.longitude),
+      };
+    });
+    console.log(`All stations: ${stations.length}`);
+    const tokyo = { lat: 35.6895, lng: 139.6917 };
+    return stations.filter(station =>
+      distance(tokyo, station) < 15,
+    );
+  }
+
   /* GET stations */
   router.get('/stations', async (req, res) => {
     try {
-      const stations = (await services.db.place.list()).map((station) => {
-        return {
-          id: station.id,
-          lat: parseFloat(station.latitude),
-          lng: parseFloat(station.longitude),
-        };
-      });
-      console.log(stations);
-      const tokyo = { lat: 35.6895, lng: 139.6917 };
-      res.status(200).json(stations.filter(station =>
-        distance(tokyo, station) < 15,
-      ));
+      const stations = await getStations();
+      console.log(`Stations near Tokyo: ${stations.length}`);
+      res.status(200).json(stations);
     } catch (err) {
       res.status(400).send('Bad Request');
     }
   });
 
   /* POST calculate */
-  router.post('/calculate', (req, res) => {
-    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 });
+  router.post('/calculate', async (req, res) => {
+    const stations = await getStations();
+    console.log(`Stations near Tokyo: ${stations.length}`);
+    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 }, stations);
     const result = dijkstra.solve();
     console.log('result', result);
     res.json(result);
