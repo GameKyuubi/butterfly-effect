@@ -3,7 +3,7 @@ const fetch = require('isomorphic-fetch');
 const getRoute = async (route) => {
   try {
     const params = {
-      route
+      route,
     };
 
     const response = await (await fetch('/api/routes', {

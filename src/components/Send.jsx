@@ -58,13 +58,13 @@ const Track = props => (
       disabled={props.route.length === 0}
       className="send-route"
       onClick={() => {
-        sendRoute(props.route).then(res => {
+        sendRoute(props.route).then((res) => {
           if (res.status === 'success') {
             props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`);
           } else if (res.status === 'error') {
             props.openDialog(`Sending package failed: ${res.message}`);
           }
-        })
+        });
       }}
     />
 
@@ -73,11 +73,11 @@ const Track = props => (
       actions={[
         <RaisedButton
           label="OK"
-          primary={true}
+          primary
           onClick={props.closeDialog}
         />,
       ]}
-      modal={true}
+      modal
       open={props.dialogOpen}
       onRequestClose={props.closeDialog}
     >
@@ -130,7 +130,7 @@ const mapStateToProps = state => ({
   mapStyle: state.mapStyle,
   route: state.route,
   dialogOpen: state.dialogOpen,
-  dialogMessage : state.dialogMessage,
+  dialogMessage: state.dialogMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -144,7 +144,7 @@ const mapDispatchToProps = dispatch => ({
   }),
   openDialog: dialogMessage => dispatch({
     type: 'OPEN_DIALOG',
-    dialogMessage
+    dialogMessage,
   }),
   closeDialog: () => dispatch({
     type: 'CLOSE_DIALOG',
@@ -156,6 +156,10 @@ Track.propTypes = {
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateRoute: PropTypes.func.isRequired,
   route: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dialogOpen: PropTypes.bool.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+  dialogMessage: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Track);

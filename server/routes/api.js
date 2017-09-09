@@ -96,7 +96,7 @@ module.exports = (services) => {
       console.log(ret);
       res.status(200).json(ret);
     } catch (err) {
-      res.status(400).json({ status: 'error', message: 'Bad Request'});
+      res.status(400).json({ status: 'error', message: 'Bad Request' });
     }
   });
 
