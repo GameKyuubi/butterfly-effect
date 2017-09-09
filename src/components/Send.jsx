@@ -58,9 +58,25 @@ const Track = props => (
       disabled={props.route.length === 0}
       className="send-route"
       onClick={() => {
-        sendRoute(props.route).then(res => { /* show dialog */ })
+        sendRoute(props.route).then(res => { props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`) })
       }}
     />
+
+    <Dialog
+      title="Airborne"
+      actions={[
+        <FlatButton
+          label="OK"
+          primary={true}
+          onClick={props.closeDialog}
+        />,
+      ]}
+      modal={false}
+      open={props.dialogOpen}
+      onRequestClose={props.closeDialog}
+    >
+      {props.dialogMessage}
+    </Dialog>
   </div>
 );
 
@@ -107,6 +123,7 @@ const mapStateToProps = state => ({
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
   route: state.route,
+  dialogMessage : state.dialogMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -117,6 +134,13 @@ const mapDispatchToProps = dispatch => ({
   updateRoute: route => dispatch({
     type: 'UPDATE_ROUTE',
     route,
+  }),
+  openDialog: dialogMessage => dispatch({
+    type: 'OPEN_DIALOG',
+    dialogMessage
+  }),
+  closeDialog: () => dispatch({
+    type: 'CLOSE_DIALOG',
   }),
 });
 
