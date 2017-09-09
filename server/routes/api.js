@@ -20,7 +20,8 @@ module.exports = (services) => {
       console.log(stations);
       res.status(200).json(stations);
     } catch (err) {
-      throw err;
+      console.error('Error getting stations!', err);
+      res.status(500).send('Error getting stations!');
     }
   });
 
