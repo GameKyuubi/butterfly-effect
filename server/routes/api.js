@@ -56,7 +56,8 @@ module.exports = (services) => {
   /* POST routes */
   router.post('/routes', async (req, res) => {
     try {
-      const routes = req.body.routes;
+      const routes = req.body.route;
+      console.log(routes);
       const trip = {
         tracknum: uuidv4(),
         status: 'inprogress',
@@ -89,12 +90,13 @@ module.exports = (services) => {
         }
       }
       const ret = {
-        stat: 'Successful!',
+        status: 'success',
         tracknum: trip.tracknum,
       };
-      res.status(200).send(ret);
+      console.log(ret);
+      res.status(200).json(ret);
     } catch (err) {
-      res.status(400).send('Bad Request');
+      res.status(400).json({ status: 'error', message: 'Bad Request' });
     }
   });
 

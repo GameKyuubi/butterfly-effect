@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 
 import Paper from 'material-ui/Paper';
+import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import getRoute from '../utils/getRoute';
+import sendRoute from '../utils/sendRoute';
 
 import './styles/send.css';
 
@@ -59,6 +61,37 @@ const Track = props => (
         route={props.route}
       />
     </div>
+    <RaisedButton
+      primary
+      label="Send Package"
+      disabled={props.route.length === 0}
+      className="send-route"
+      onClick={() => {
+        sendRoute(props.route).then((res) => {
+          if (res.status === 'success') {
+            props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`);
+          } else if (res.status === 'error') {
+            props.openDialog(`Sending package failed: ${res.message}`);
+          }
+        });
+      }}
+    />
+
+    <Dialog
+      title="Airborne"
+      actions={[
+        <RaisedButton
+          label="OK"
+          primary
+          onClick={props.closeDialog}
+        />,
+      ]}
+      modal
+      open={props.dialogOpen}
+      onRequestClose={props.closeDialog}
+    >
+      {props.dialogMessage}
+    </Dialog>
   </div>
 );
 
@@ -105,6 +138,8 @@ const mapStateToProps = state => ({
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
   route: state.route,
+  dialogOpen: state.dialogOpen,
+  dialogMessage: state.dialogMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -116,6 +151,13 @@ const mapDispatchToProps = dispatch => ({
     type: 'UPDATE_ROUTE',
     route,
   }),
+  openDialog: dialogMessage => dispatch({
+    type: 'OPEN_DIALOG',
+    dialogMessage,
+  }),
+  closeDialog: () => dispatch({
+    type: 'CLOSE_DIALOG',
+  }),
 });
 
 Track.propTypes = {
@@ -123,6 +165,10 @@ Track.propTypes = {
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateRoute: PropTypes.func.isRequired,
   route: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dialogOpen: PropTypes.bool.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+  dialogMessage: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Track);
