@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 
 import Paper from 'material-ui/Paper';
+import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import getRoute from '../utils/getRoute';
+import sendRoute from '../utils/sendRoute';
 
 import './styles/send.css';
 
@@ -56,7 +58,7 @@ const Track = props => (
       disabled={props.route.length === 0}
       className="send-route"
       onClick={() => {
-
+        sendRoute(props.route).then(res => { /* show dialog */ })
       }}
     />
   </div>
