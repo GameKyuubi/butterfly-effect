@@ -72,7 +72,7 @@ const Track = props => (
           onClick={props.closeDialog}
         />,
       ]}
-      modal={false}
+      modal={true}
       open={props.dialogOpen}
       onRequestClose={props.closeDialog}
     >
@@ -124,6 +124,7 @@ const mapStateToProps = state => ({
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
   route: state.route,
+  dialogOpen: state.dialogOpen,
   dialogMessage : state.dialogMessage,
 });
 
