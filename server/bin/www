@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 
 /**
+ * Run database migrations
+ */
+
+const db = require('../knexfile');
+
+console.log('Running migrations...');
+db.migrate.latest();
+
+/**
  * Module dependencies.
  */
 
