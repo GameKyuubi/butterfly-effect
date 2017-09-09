@@ -13,7 +13,7 @@ const db = knex({
 (async () => {
   try {
     const result = await new Promise((resolve, reject) => {
-      fs.readFile('../data/location.json', 'utf-8', (err, data) => {
+      fs.readFile('../data/station-cords.json', 'utf-8', (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -34,7 +34,10 @@ const db = knex({
       item.latitude = station.lat;
       item.longitude = station.lng;
       item.type = 'station';
-      return insert(item);
+      if (item.longitude !== 0 && item.latitude !== 0) {
+        return insert(item);
+      }
+      return null;
     });
 
     await Promise.all(promises);
@@ -42,5 +45,6 @@ const db = knex({
   } catch (err) {
     console.error('Error updating records', err);
   }
+  console.log('All done!');
   process.exit();
 })();

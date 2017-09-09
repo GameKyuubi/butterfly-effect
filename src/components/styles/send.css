@@ -29,3 +29,7 @@
 #track-map {
   height: 0;
 }
+
+.send-route {
+  margin-top: 10px;
+}

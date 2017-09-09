@@ -17,7 +17,7 @@ const getRoute = async (from, dest) => {
   try {
     const cords = await Promise.all([getLngLat(from), getLngLat(dest)]);
     if (cords[0].status === 'error' || cords[1].status === 'error') {
-      return { status: 'error', message: 'Could not find location.' };
+      return { status: 'error', message: 'Could not find location.', path: [] };
     }
     const params = {
       from: {
@@ -38,10 +38,10 @@ const getRoute = async (from, dest) => {
       },
       credentials: 'same-origin',
     })).json();
-
+    response.status = 'ok';
     return response;
   } catch (err) {
-    return { status: 'error', message: 'Error occured while fetching from API.' };
+    return { status: 'error', message: 'Error occured while fetching from API.', path: [] };
   }
 };
 
