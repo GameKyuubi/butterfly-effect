@@ -29,6 +29,8 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { route: action.route });
     case 'UPDATE_STATIONS':
       return Object.assign({}, state, { stations: action.stations, stationsLoaded: true });
+    case 'SELECT_STATION':
+      return Object.assign({}, state, { selectedStation: action.station });
     case 'OPEN_DIALOG':
       return Object.assign({}, state, { dialogOpen: true, dialogMessage: action.dialogMessage });
     case 'CLOSE_DIALOG':

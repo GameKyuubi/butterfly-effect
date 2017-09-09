@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
 import { withGoogleMap, GoogleMap, Marker, Circle } from 'react-google-maps';
-=======
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
->>>>>>> Display drone on admin page
 
 import Paper from 'material-ui/Paper';
 import Icon from 'material-ui/SvgIcon';
@@ -40,6 +36,8 @@ const Admin = (props) => {
       mapStyle={props.mapStyle}
       stations={props.stations}
       showStations={props.showStations}
+      selectStation={props.selectStation}
+      selectedStation={props.selectedStation}
       drones={props.drones}
     />
     <Paper className="details-pane">
@@ -85,7 +83,7 @@ const droneIcon = {
 
 const AdminMap = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={12}
+    defaultZoom={13}
     center={props.mapCenter}
     options={{ styles: props.mapStyle }}
   >
@@ -95,21 +93,21 @@ const AdminMap = withGoogleMap(props => (
           key={station.id}
           position={{ lat: station.lat, lng: station.lng }}
           icon={stationIcon}
+          onClick={() => props.selectStation(station)}
         />)) :
       <div /> }
-    { props.showStations ?
-      props.stations.map(station => (
-        <Circle
-          key={station.id}
-          center={{ lat: station.lat, lng: station.lng }}
-          radius={4000}
-          options={{
-            strokeColor: 'grey',
-            fillColor: 'grey',
-            strokeWeight: 1,
-          }}
-        />)) :
-      <div /> }
+    { props.selectedStation ?
+      <Circle
+        key={props.selectedStation.id}
+        center={{ lat: props.selectedStation.lat, lng: props.selectedStation.lng }}
+        radius={2000}
+        options={{
+          strokeColor: 'grey',
+          fillColor: 'grey',
+          strokeWeight: 1,
+        }}
+      /> :
+      <div />}
     { props.drones.map(drone =>
       <Marker key={drone.id} position={{ lat: drone.lat, lng: drone.lng }} icon={droneIcon} />,
     )}
@@ -124,6 +122,7 @@ const mapStateToProps = state => ({
   settingPaneOpen: state.settingPaneOpen,
   showStations: state.showStations,
   stations: state.stations,
+  selectedStation: state.selectedStation,
   stationsLoaded: state.stationsLoaded,
 });
 
@@ -141,6 +140,10 @@ const mapDispatchToProps = dispatch => ({
   updateStations: stations => dispatch({
     type: 'UPDATE_STATIONS',
     stations,
+  }),
+  selectStation: station => dispatch({
+    type: 'SELECT_STATION',
+    station,
   }),
 });
 
