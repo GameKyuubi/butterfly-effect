@@ -5,6 +5,7 @@
 /* eslint-disable no-mixed-operators */
 
 const express = require('express');
+
 const router = express.Router();
 const Dijkstra = require('../utils/droneController');
 const uuidv4 = require('uuid/v4');
@@ -79,8 +80,8 @@ router.post('/routes', async (req, res) => {
         tracknum: trip.tracknum,
         status: trip.status,
       });
-    console.log('tripResult:', tripResult);
-    const tripid = tripResult.id;
+    console.log('tripResult:', tripResult[0]);
+    const tripid = tripResult[0];
 
     for (let i = 0, len = routes.length; i < len; i += 1) {
       if (i !== len - 1) {
@@ -95,7 +96,6 @@ router.post('/routes', async (req, res) => {
         } else {
           segment.status = 'waiting';
         }
-
         // store segments
         const segmentId = await db('segment')
           .returning('id')
@@ -106,7 +106,7 @@ router.post('/routes', async (req, res) => {
             drone_id: segment.drone_id,
             status: segment.status,
           });
-        console.log('segment id:', segmentId);
+        console.log('segment id:', segmentId[0]);
       }
 
       if (routes[i].name === 'source' || routes[i].name === 'destination') {
@@ -123,7 +123,7 @@ router.post('/routes', async (req, res) => {
             latitude: route.latitude,
             longitude: route.longitude,
           });
-        console.log('place id:', placeId);
+        console.log('place id:', placeId[0]);
       }
     }
     const ret = {
@@ -145,8 +145,8 @@ router.post('/tracknum', async (req, res) => {
       .where({ tracknum })
       .select();
     console.log('trip:', trip);
+    // console.log('tripid', trip[0].id)
     const tripid = trip[0].id;
-    // console.log('obj', { trip_id: tripid })
     const segments = await db('segment')
       .where({ trip_id: tripid })
       .select();
