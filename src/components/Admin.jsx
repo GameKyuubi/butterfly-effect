@@ -152,7 +152,6 @@ Admin.propTypes = {
   drones: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapCenter: PropTypes.shape().isRequired,
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedDrone: PropTypes.shape(),
   stations: PropTypes.arrayOf(PropTypes.object).isRequired,
   settingPaneOpen: PropTypes.bool.isRequired,
   toggleSettingPane: PropTypes.func.isRequired,
@@ -160,10 +159,13 @@ Admin.propTypes = {
   toggleStations: PropTypes.func.isRequired,
   stationsLoaded: PropTypes.bool.isRequired,
   updateStations: PropTypes.func.isRequired,
+  selectStation: PropTypes.func.isRequired,
+  selectedStation: PropTypes.shape(),
 };
 
 Admin.defaultProps = {
   selectedDrone: null,
+  selectedStation: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);
