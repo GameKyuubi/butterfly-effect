@@ -1,3 +1,4 @@
+require('dotenv').config();
 const AirspaceChecker = require('../lib/AirspaceChecker');
 const assert = require('chai').assert;
 
