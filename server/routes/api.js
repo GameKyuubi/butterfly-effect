@@ -56,7 +56,8 @@ module.exports = (services) => {
   /* POST routes */
   router.post('/routes', async (req, res) => {
     try {
-      const routes = req.body.routes;
+      const routes = req.body.route;
+      console.log(routes);
       const trip = {
         tracknum: uuidv4(),
         status: 'inprogress',
