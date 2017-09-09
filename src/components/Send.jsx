@@ -6,7 +6,6 @@ import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import getRoute from '../utils/getRoute';
@@ -59,14 +58,20 @@ const Track = props => (
       disabled={props.route.length === 0}
       className="send-route"
       onClick={() => {
-        sendRoute(props.route).then(res => { props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`) })
+        sendRoute(props.route).then(res => {
+          if (res.status === 'success') {
+            props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`);
+          } else if (res.status === 'error') {
+            props.openDialog(`Sending package failed: ${res.message}`);
+          }
+        })
       }}
     />
 
     <Dialog
       title="Airborne"
       actions={[
-        <FlatButton
+        <RaisedButton
           label="OK"
           primary={true}
           onClick={props.closeDialog}

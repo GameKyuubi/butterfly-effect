@@ -89,13 +89,13 @@ module.exports = (services) => {
         }
       }
       const ret = {
-        stat: 'Successful!',
+        status: 'success',
         tracknum: trip.tracknum,
       };
       console.log(ret);
       res.status(200).json(ret);
     } catch (err) {
-      res.status(400).send('Bad Request');
+      res.status(400).json({ status: 'error', message: 'Bad Request'});
     }
   });
 
