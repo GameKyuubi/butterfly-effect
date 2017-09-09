@@ -38,7 +38,16 @@ const Track = props => (
         className="sending-search-button"
         onClick={() => {
           getRoute(document.getElementById('from-address').value, document.getElementById('dest-address').value)
-            .then(response => props.updateRoute(response.path));
+            .then((response) => {
+              props.updateRoute(response.path);
+              if (response.message === 'Could not find location.') {
+                props.openDialog('Could not find location.');
+              } else if (response.message === 'Error occured while fetching from API.') {
+                props.openDialog('Error occured while fetching from API.');
+              } else if (response.status === 'ok' && response.path.length === 0) {
+                props.openDialog('Sorry, this path is currently not available. For more information please contact us.');
+              }
+            });
         }}
       />
     </div>

@@ -136,18 +136,23 @@ class DroneController {
     this.constructGraph();
     this.dijkstra();
     console.log('dijkstra ended');
-    if (this.path !== []) {
-      this.path.unshift(this.source);
-      this.stationsOnPath.unshift('source');
+    if(this.path === undefined && this.minDistance === undefined){
+      return {
+        distance: this.minDistance,
+        path: []
+      };
     }
+    this.path.unshift(this.source);
+    this.stationsOnPath.unshift('source');
     this.path.unshift(this.firstStation.stationLocation);
     this.stationsOnPath.unshift(this.firstStation.stationName);
     this.finalStation = this.findNearestStation(this.destination);
     if (this.finalStation.minDistance > this.options.MAX_DISTANCE / 2) {
       this.minDistance = undefined;
+    } else {
+      this.path.push(this.finalStation.stationLocation);
+      this.stationsOnPath.push(this.finalStation.stationName);
     }
-    this.path.push(this.finalStation.stationLocation);
-    this.stationsOnPath.push(this.finalStation.stationName);
     if (this.minDistance === undefined) {
       this.path = [];
       this.stationsOnPath = [];
@@ -162,9 +167,7 @@ class DroneController {
     }
     return {
       distance: this.minDistance,
-      path: route,
-      // path: this.path, //array : locations of stations on path
-      // stationsOnPath: this.stationsOnPath //array : name of stations
+      path: route
     };
   }
 }

@@ -49,7 +49,7 @@ module.exports = (services) => {
   router.post('/calculate', (req, res) => {
     const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 });
     const result = dijkstra.solve();
-    console.log(result);
+    console.log('result', result);
     res.json(result);
   });
 
