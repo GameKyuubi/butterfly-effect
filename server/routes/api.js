@@ -92,7 +92,8 @@ module.exports = (services) => {
         stat: 'Successful!',
         tracknum: trip.tracknum,
       };
-      res.status(200).send(ret);
+      console.log(ret);
+      res.status(200).json(ret);
     } catch (err) {
       res.status(400).send('Bad Request');
     }

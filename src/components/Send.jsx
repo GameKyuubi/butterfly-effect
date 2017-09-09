@@ -6,6 +6,7 @@ import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import getRoute from '../utils/getRoute';
