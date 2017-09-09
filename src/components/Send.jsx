@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, Circle, Polyline } from 'react-google-maps';
 
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
@@ -59,6 +59,8 @@ const Track = props => (
         mapCenter={props.mapCenter}
         mapStyle={props.mapStyle}
         route={props.route}
+        selectStation={props.selectStation}
+        selectedStation={props.selectedStation}
       />
     </div>
     <RaisedButton
@@ -128,8 +130,21 @@ const SendMap = withGoogleMap(props => (
         key={loc.name}
         position={{ lat: loc.lat, lng: loc.lng }}
         icon={loc.name === 'source' || loc.name === 'destination' ? icons[loc.name] : station}
+        onClick={loc.name !== 'source' && loc.name !== 'destination' ? props.selectStation(loc) : {}}
       />
     ))}
+    { props.selectedStation ?
+      <Circle
+        key={props.selectedStation.id}
+        center={{ lat: props.selectedStation.lat, lng: props.selectedStation.lng }}
+        radius={2000}
+        options={{
+          strokeColor: 'grey',
+          fillColor: 'grey',
+          strokeWeight: 1,
+        }}
+      /> :
+      <div />}
     <Polyline path={props.route} strokeColor={'#1FBCD2'} />
   </GoogleMap>
 ));
@@ -140,6 +155,7 @@ const mapStateToProps = state => ({
   route: state.route,
   dialogOpen: state.dialogOpen,
   dialogMessage: state.dialogMessage,
+  selectedStation: state.selectedStation,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -158,6 +174,10 @@ const mapDispatchToProps = dispatch => ({
   closeDialog: () => dispatch({
     type: 'CLOSE_DIALOG',
   }),
+  selectStation: selectedStation => dispatch({
+    type: 'SELECT_STATION',
+    station: selectedStation,
+  }),
 });
 
 Track.propTypes = {
@@ -169,6 +189,12 @@ Track.propTypes = {
   openDialog: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
   dialogMessage: PropTypes.string.isRequired,
+  selectStation: PropTypes.func.isRequired,
+  selectedStation: PropTypes.shape(),
+};
+
+Track.defaultProps = {
+  selectedStation: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Track);

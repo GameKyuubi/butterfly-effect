@@ -33,10 +33,10 @@ const Track = props => (
         onClick={() => {
           const trackingNumber = document.getElementById('tracking-number').value;
           const tracker = window.setInterval(() => {
-          track(trackingNumber)
-            .then(trackedPackage => trackedPackage.status && trackedPackage.status === 'OK' ?
-              props.updateTrackedPackage(trackedPackage) :
-              clearInterval(tracker));
+            track(trackingNumber)
+              .then(trackedPackage => (trackedPackage.status && trackedPackage.status === 'OK' ?
+                props.updateTrackedPackage(trackedPackage) :
+                clearInterval(tracker)));
           }, 1000);
         }}
       />

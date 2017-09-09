@@ -3,7 +3,7 @@ const fetch = require('isomorphic-fetch');
 const track = async (trackingNumber) => {
   try {
     const params = {
-      trackingNumber
+      trackingNumber,
     };
 
     const response = await (await fetch('/api/track', {

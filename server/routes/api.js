@@ -55,7 +55,7 @@ module.exports = (services) => {
   router.post('/calculate', async (req, res) => {
     const stations = await getStations();
     console.log(`Stations near Tokyo: ${stations.length}`);
-    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 }, stations);
+    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 2 }, stations);
     const result = dijkstra.solve();
     console.log('result', result);
     res.json(result);
