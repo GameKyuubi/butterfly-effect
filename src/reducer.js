@@ -7,7 +7,7 @@ const initialState = {
   selectedDrone: null,
   stations: [],
   stationsLoaded: false,
-  trackedPackage: null,
+  trackedPackage: { route: [] },
   settingPaneOpen: false,
   showStations: true,
   route: [],
@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
     case 'TOGGLE_STATIONS':
       return Object.assign({}, state, { showStations: !state.showStations });
     case 'UPDATE_ROUTE':
-      return Object.assign({}, state, { route: action.route });
+      return Object.assign({}, state, { route: action.route, selectedStation: null });
     case 'UPDATE_STATIONS':
       return Object.assign({}, state, { stations: action.stations, stationsLoaded: true });
     case 'SELECT_STATION':
