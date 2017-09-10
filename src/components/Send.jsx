@@ -130,7 +130,7 @@ const SendMap = withGoogleMap(props => (
         key={loc.name}
         position={{ lat: loc.lat, lng: loc.lng }}
         icon={loc.name === 'source' || loc.name === 'destination' ? icons[loc.name] : station}
-        onClick={loc.name !== 'source' && loc.name !== 'destination' ? props.selectStation(loc) : {}}
+        onClick={loc.name !== 'source' && loc.name !== 'destination' ? () => props.selectStation(loc) : {}}
       />
     ))}
     { props.selectedStation ?
