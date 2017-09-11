@@ -34,7 +34,7 @@ const getStations = async () => {
   console.log(`All stations: ${stations.length}`);
   const tokyo = { lat: 35.6895, lng: 139.6917 };
   return stations.filter(station =>
-    distance(tokyo, station) < 2,
+    distance(tokyo, station) < 15,
   );
 };
 

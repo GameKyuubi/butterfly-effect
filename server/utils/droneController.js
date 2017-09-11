@@ -4,9 +4,16 @@
 
 const fetch = require('isomorphic-fetch');
 const AirspaceChecker = require('../lib/AirspaceChecker');
+const Graph = require('./graph')
+let graph;
 
 class DroneController {
   constructor(source, destination, options, data) {
+    if (!graph) {
+      graph = new Graph(options, data); 
+    }
+    this.graph = graph;
+    console.log(graph)
     this.stations = {};
     for (let station of data) {
       this.stations[station.id] = {};
@@ -20,6 +27,7 @@ class DroneController {
     // Add Source and Destination Points to the List of Stations
     this.stations.source = this.source;
     this.stations.destination = this.destination;
+    this.twoPoints = {source: this.source, destination: this.destination};
     this.firstStation = this.findNearestStation(source);
     this.bannedArea = false;
 
@@ -76,12 +84,11 @@ class DroneController {
 
   constructGraph() {
     let c = 0;
-    this.graph = {};
     let promises = [];
     for (let point in this.stations) {
       if (!this.stations[point] || !this.stations[point].lat || !this.stations[point].lng) continue;
 
-      for (let adj in this.stations) {
+      for (let adj in this.twoPoints) {
         if (!this.stations[adj] || !this.stations[adj].lat || !this.stations[adj].lng) continue;
         if (point === adj) {
           continue;
