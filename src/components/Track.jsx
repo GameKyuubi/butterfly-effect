@@ -76,16 +76,22 @@ const icons = {
 
 const TrackMap = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={11}
+    defaultZoom={12}
     center={props.mapCenter}
     options={{ styles: props.mapStyle }}
   >
-    {props.package.route.map(loc => (
+    { props.package.route.length > 0 ?
+    <Marker
+      position={{ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng }}
+      icon={station}
+      onClick={() => props.selectStation(props.package.route[0])}
+    /> : <div />}
+    {props.package.route.map(seg => (
       <Marker
-        key={loc.id}
-        position={{ lat: loc.lat, lng: loc.lng }}
-        icon={loc.name === 'source' || loc.name === 'destination' ? icons[loc.name] : station}
-        onClick={loc.name !== 'source' && loc.name !== 'destination' ? () => props.selectStation(loc) : {}}
+        key={seg.id}
+        position={{ lat: seg.destLat, lng: seg.destLng }}
+        icon={seg.destType === 'source' || seg.destType === 'destination' ? icons[seg.destType] : station}
+        onClick={seg.destType !== 'source' && seg.destType !== 'destination' ? () => props.selectStation(seg) : {}}
       />
     ))}
     { props.selectedStation ?
@@ -100,7 +106,7 @@ const TrackMap = withGoogleMap(props => (
         }}
       /> :
       <div />}
-    <Polyline path={props.route} strokeColor={'#1FBCD2'} />
+    <Polyline path={props.package.route.map(route => { return { lat: route.destLat, lng: route.destLng }})} strokeColor={'#1FBCD2'} />
   </GoogleMap>
 ));
 

@@ -100,12 +100,16 @@ module.exports = (services) => {
             drone_id: i + 1,
           };
           
-          if (routes[i].name === 'source' || routes[i].name === 'destination') {
+          if (routes[i].name === 'source') {
             segment.source_id = sourceId;
+          } else if (routes[i].name === 'destination') {
+            segment.source_id = desId;
           } else {
             segment.source_id = parseInt(routes[i].name);
           }
-          if (routes[i + 1].name === 'source' || routes[i + 1].name === 'destination') {
+          if (routes[i + 1].name === 'source') {
+            segment.des_id = sourceId;
+          } else if (routes[i + 1].name === 'destination') {
             segment.des_id = desId;
           } else {
             segment.des_id = parseInt(routes[i + 1].name);
@@ -154,10 +158,12 @@ module.exports = (services) => {
         let dest = await services.db.place.search(segment.des_id);
         route.push({
           id: segment.id,
-          sourceLat: source.latitude,
-          sourceLng: source.longitude,
-          destLat: dest.latitude,
-          destLng: dest.longitude,
+          sourceType: source.type,
+          sourceLat: parseFloat(source.latitude),
+          sourceLng: parseFloat(source.longitude),
+          destType: dest.type,
+          destLat: parseFloat(dest.latitude),
+          destLng: parseFloat(dest.longitude),
         });
       }
 
