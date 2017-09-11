@@ -109,8 +109,17 @@ const TrackMap = withGoogleMap(props => (
     { props.package.route.length ?
       <Polyline
         path={(() => {
+<<<<<<< HEAD
           const array = props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }));
           array.unshift({ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng });
+=======
+          const array = props.package.route.map(route =>
+            ({ lat: route.destLat, lng: route.destLng }));
+          array.unshift({
+            lat: props.package.route[0].sourceLat,
+            lng: props.package.route[0].sourceLng,
+          });
+>>>>>>> Linter fix
           return array;
         })()}
         strokeColor={'#1FBCD2'}
