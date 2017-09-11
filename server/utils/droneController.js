@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 const fetch = require('isomorphic-fetch');
+const fs = require('fs');
 
 class DroneController {
   constructor(source, destination, options, data) {
@@ -68,18 +69,8 @@ class DroneController {
   }
   
   constructGraph() {
-    this.graph = {};
-    for (let point in this.stations) {
-      for (let adj in this.stations) {
-        if (point === adj) {
-          continue;
-        }
-        if (this.distance(this.stations[point], this.stations[adj]) <= this.options.MAX_DISTANCE ) {
-          this.graph[point] = this.graph[point] || {};
-          this.graph[point][adj] = this.distance(this.stations[point], this.stations[adj]);
-        }
-      }
-    }
+    this.graph = JSON.parse(fs.readFileSync(__dirname + '/graph.json'));
+    console.log(this.graph);
   }
   
   calculatePath(parrents) {
