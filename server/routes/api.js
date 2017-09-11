@@ -12,7 +12,6 @@ const helper = require('../utils/dbHelper');
 
 const { getStations, storeTrip, storeSegments, storePlaces, getTrip, getSegments, getTelemetry } = helper;
 
-/* GET stations */
 router.get('/stations', async (req, res) => {
   try {
     const stations = await getStations();
@@ -23,7 +22,6 @@ router.get('/stations', async (req, res) => {
   }
 });
 
-/* POST calculate */
 router.post('/calculate', async (req, res) => {
   try {
     const stations = await getStations();
@@ -37,7 +35,6 @@ router.post('/calculate', async (req, res) => {
   }
 });
 
-/* POST routes */
 router.post('/routes', async (req, res) => {
   try {
     const routes = req.body.route;
@@ -79,7 +76,6 @@ router.post('/routes', async (req, res) => {
   }
 });
 
-/* POST tracknum */
 router.post('/tracknum', async (req, res) => {
   try {
     const tracknum = req.body.id;
