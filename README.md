@@ -31,6 +31,24 @@ node populate-stations.js
 node populate-drones.js
 ```
 
+To run the app:
+```
+npm run client
+```
+OR
+```
+yarn client
+```
+
+To run the server:
+```
+npm run server
+```
+OR
+```
+yarn server
+```
+
 ## Running tests
 There are three tests that you can run: `test:eslint`, `test:stylelint`, and `test:unit`.
 To run all of them, please run:
