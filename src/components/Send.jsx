@@ -121,7 +121,7 @@ const icons = {
 
 const SendMap = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={12}
+    defaultZoom={13}
     center={props.mapCenter}
     options={{ styles: props.mapStyle }}
   >
