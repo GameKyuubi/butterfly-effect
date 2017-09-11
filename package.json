@@ -34,9 +34,9 @@
   "scripts": {
     "precommit": "lint-staged",
     "start": "yarn build && yarn heroku",
-    "heroku": "HTTPS_PROXY=443 node ./server/bin/www",
-    "server": "HTTPS_PROXY=3001 nodemon ./server/bin/www",
-    "client": "PORT=3000 react-scripts start",
+    "heroku": "node ./server/bin/www",
+    "server": "nodemon ./server/bin/www",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "test:eslint": "eslint --ext=js --ext=jsx .",
     "test:stylelint": "stylelint \"**/*.css\"",
@@ -47,6 +47,7 @@
     "migrate": "knex migrate:latest --knexfile services/db/knexfile.js",
     "rollback": "knex migrate:rollback --knexfile services/db/knexfile.js"
   },
+  "proxy": "https://localhost:3001",
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^3.5.0",
