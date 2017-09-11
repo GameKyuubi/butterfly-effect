@@ -33,9 +33,7 @@ const Track = props => (
         onClick={() => {
           const trackingNumber = document.getElementById('tracking-number').value;
           track(trackingNumber)
-            .then(response =>
-              props.updateTrackedPackage(response)
-            )
+            .then(response => props.updateTrackedPackage(response));
         }}
       />
     </div>
@@ -81,11 +79,12 @@ const TrackMap = withGoogleMap(props => (
     options={{ styles: props.mapStyle }}
   >
     { props.package.route.length > 0 ?
-    <Marker
-      position={{ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng }}
-      icon={station}
-      onClick={() => props.selectStation(props.package.route[0])}
-    /> : <div />}
+      <Marker
+        position={{ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng }}
+        icon={station}
+        onClick={() => props.selectStation(props.package.route[0])}
+      /> : <div />
+    }
     {props.package.route.map(seg => (
       <Marker
         key={seg.id}
@@ -106,7 +105,10 @@ const TrackMap = withGoogleMap(props => (
         }}
       /> :
       <div />}
-    <Polyline path={props.package.route.map(route => { return { lat: route.destLat, lng: route.destLng }})} strokeColor={'#1FBCD2'} />
+    <Polyline
+      path={props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }))}
+      strokeColor={'#1FBCD2'}
+    />
   </GoogleMap>
 ));
 
@@ -121,16 +123,17 @@ const mapDispatchToProps = dispatch => ({
     type: 'SET_MAP_CENTER',
     center,
   }),
-  updateTrackedPackage: trackedPackage => {
-    console.log(trackedPackage); dispatch({
+  updateTrackedPackage: trackedPackage => dispatch({
     type: 'UPDATE_TRACKED_PACKAGE',
     trackedPackage,
-  })},
+  }),
 });
 
 Track.propTypes = {
   mapCenter: PropTypes.shape().isRequired,
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateTrackedPackage: PropTypes.func.isRequired,
+  package: PropTypes.shape().isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Track);

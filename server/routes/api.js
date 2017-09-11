@@ -3,6 +3,8 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-mixed-operators */
+/* eslint-disable prefer-const */
+/* eslint-disable no-restricted-syntax */
 
 const express = require('express');
 const Dijkstra = require('../utils/droneController');
@@ -76,7 +78,8 @@ module.exports = (services) => {
       const tripid = tripResult.id;
       console.log('Trip stored at id:', tripid);
 
-      let sourceId = 0, des_id = 0;
+      let sourceId = 0;
+      let desId = 0;
       for (let i = 0, len = routes.length; i < len; i += 1) {
         if (routes[i].name === 'source' || routes[i].name === 'destination') {
           const route = {
@@ -85,7 +88,7 @@ module.exports = (services) => {
             longitude: routes[i].lng,
           };
           // store places
-          if(routes[i].name === 'source') {
+          if (routes[i].name === 'source') {
             sourceId = (await services.db.place.create(route)).id;
           } else {
             desId = (await services.db.place.create(route)).id;
@@ -95,24 +98,24 @@ module.exports = (services) => {
 
       for (let i = 0, len = routes.length; i < len; i += 1) {
         if (i !== len - 1) {
-          let segment = {
+          const segment = {
             trip_id: tripid,
             drone_id: i + 1,
           };
-          
+
           if (routes[i].name === 'source') {
             segment.source_id = sourceId;
           } else if (routes[i].name === 'destination') {
             segment.source_id = desId;
           } else {
-            segment.source_id = parseInt(routes[i].name);
+            segment.source_id = parseInt(routes[i].name, 10);
           }
           if (routes[i + 1].name === 'source') {
             segment.des_id = sourceId;
           } else if (routes[i + 1].name === 'destination') {
             segment.des_id = desId;
           } else {
-            segment.des_id = parseInt(routes[i + 1].name);
+            segment.des_id = parseInt(routes[i + 1].name, 10);
           }
 
           if (i === 0) {
@@ -152,7 +155,7 @@ module.exports = (services) => {
         }
       }
 
-      let route = [];
+      const route = [];
       for (let segment of segments) {
         let source = await services.db.place.search(segment.source_id);
         let dest = await services.db.place.search(segment.des_id);

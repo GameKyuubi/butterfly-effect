@@ -2,7 +2,6 @@
 
 module.exports = (knex, Place) => {
   return async (id) => {
-    console.log('Searching for place by id:', id);
     try {
       const place = await knex('place')
         .where({ id })

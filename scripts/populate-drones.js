@@ -20,26 +20,26 @@ const db = knex({
         .then(res => res)
         .catch(err => console.error('Error creating drone', err));
 
-    let droneIds = [];
-    while(droneIds.length < 1000) droneIds.push(droneIds.length);
-    
-    const dronePromises = droneIds.map((id) => {
-      return insertDrone({
+    const droneIds = [];
+    while (droneIds.length < 1000) droneIds.push(droneIds.length);
+
+    const dronePromises = droneIds.map(id =>
+      insertDrone({
         id,
         flytime: 1200000,
         speed: 10,
-      });
-    });
+      }),
+    );
 
-    const telemetryPromises = droneIds.map((id) => {
-      return insertTelemetry({
+    const telemetryPromises = droneIds.map(id =>
+      insertTelemetry({
         latitude: 35.6895,
         longitude: 139.6917,
         charge: 100,
         drone_id: id,
         status: 'ready',
-      });
-    });
+      }),
+    );
 
     await Promise.all(dronePromises);
     await Promise.all(telemetryPromises);
