@@ -39,6 +39,7 @@ const Track = props => (
         onClick={() => {
           getRoute(document.getElementById('from-address').value, document.getElementById('dest-address').value)
             .then((response) => {
+              console.log(response)
               props.updateRoute(response.path);
               if (response.message === 'Could not find location.') {
                 props.openDialog('Could not find location.');

@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+require('dotenv').config();
 const querystring = require('querystring');
 const fetch = require('isomorphic-fetch');
 
@@ -25,11 +26,10 @@ class AirspaceChecker {
       const query = querystring.stringify(params);
       const options = {
         headers: {
-          'x-api-key': process.env.AIRMAP_API_KEY,
+          'x-api-key': process.env.AIRMAP_API_KEY
         },
       };
       const response = await (await fetch(`https://api.airmap.jp/airspace/v2/search?${query}`, options)).json();
-
       isOK = response.data.length === 0;
     } catch (err) {
       console.error('Error contacting Airmap API:', err);

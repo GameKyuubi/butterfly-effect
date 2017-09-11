@@ -36,7 +36,7 @@ module.exports = (services) => {
     console.log(`All stations: ${stations.length}`);
     const tokyo = { lat: 35.6895, lng: 139.6917 };
     return stations.filter(station =>
-      distance(tokyo, station) < 15,
+      distance(tokyo, station) < 2,
     );
   };
 
@@ -56,7 +56,7 @@ module.exports = (services) => {
     const stations = await getStations();
     console.log(`Stations near Tokyo: ${stations.length}`);
     const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 }, stations);
-    const result = dijkstra.solve();
+    const result = await dijkstra.solve();
     console.log('result', result);
     res.json(result);
   });
