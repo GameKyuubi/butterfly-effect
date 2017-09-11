@@ -3,6 +3,8 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-mixed-operators */
+/* eslint-disable prefer-const */
+/* eslint-disable no-restricted-syntax */
 
 const express = require('express');
 const Dijkstra = require('../utils/droneController');
@@ -55,7 +57,7 @@ module.exports = (services) => {
   router.post('/calculate', async (req, res) => {
     const stations = await getStations();
     console.log(`Stations near Tokyo: ${stations.length}`);
-    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 4 }, stations);
+    const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 2 }, stations);
     const result = dijkstra.solve();
     console.log('result', result);
     res.json(result);
@@ -65,7 +67,7 @@ module.exports = (services) => {
   router.post('/routes', async (req, res) => {
     try {
       const routes = req.body.route;
-      console.log(routes);
+      console.log('Routes:', routes);
       const trip = {
         tracknum: uuidv4(),
         status: 'inprogress',
@@ -74,15 +76,48 @@ module.exports = (services) => {
       // store trip
       const tripResult = await services.db.trip.create(trip);
       const tripid = tripResult.id;
+      console.log('Trip stored at id:', tripid);
+
+      let sourceId = 0;
+      let desId = 0;
+      for (let i = 0, len = routes.length; i < len; i += 1) {
+        if (routes[i].name === 'source' || routes[i].name === 'destination') {
+          const route = {
+            type: routes[i].name,
+            latitude: routes[i].lat,
+            longitude: routes[i].lng,
+          };
+          // store places
+          if (routes[i].name === 'source') {
+            sourceId = (await services.db.place.create(route)).id;
+          } else {
+            desId = (await services.db.place.create(route)).id;
+          }
+        }
+      }
 
       for (let i = 0, len = routes.length; i < len; i += 1) {
         if (i !== len - 1) {
           const segment = {
-            source_id: routes[i].id,
-            des_id: routes[i + 1].id,
             trip_id: tripid,
             drone_id: i + 1,
           };
+
+          if (routes[i].name === 'source') {
+            segment.source_id = sourceId;
+          } else if (routes[i].name === 'destination') {
+            segment.source_id = desId;
+          } else {
+            segment.source_id = parseInt(routes[i].name, 10);
+          }
+          if (routes[i + 1].name === 'source') {
+            segment.des_id = sourceId;
+          } else if (routes[i + 1].name === 'destination') {
+            segment.des_id = desId;
+          } else {
+            segment.des_id = parseInt(routes[i + 1].name, 10);
+          }
+
           if (i === 0) {
             segment.status = 'inprogress';
           } else {
@@ -91,17 +126,8 @@ module.exports = (services) => {
           // store segments
           await services.db.segment.create(segment);
         }
-
-        if (routes[i].name === 'source' || routes[i].name === 'destination') {
-          const route = {
-            type: routes[i].name,
-            latitude: routes[i].lat,
-            longitude: routes[i].lng,
-          };
-          // store places
-          await services.db.place.create(route);
-        }
       }
+
       const ret = {
         status: 'success',
         tracknum: trip.tracknum,
@@ -113,9 +139,10 @@ module.exports = (services) => {
     }
   });
 
-  router.post('/tracknum', async (req, res) => {
+  router.post('/track', async (req, res) => {
     try {
-      const tracknum = req.body.id;
+      const tracknum = req.body.trackingNumber;
+      console.log('Tracking number:', tracknum);
       const trip = await services.db.trip.search(tracknum);
       const tripid = trip.id;
       const segments = await services.db.segment.search(tripid);
@@ -127,8 +154,24 @@ module.exports = (services) => {
           telemetry = await services.db.telemetry.search(droneId);
         }
       }
+
+      const route = [];
+      for (let segment of segments) {
+        let source = await services.db.place.search(segment.source_id);
+        let dest = await services.db.place.search(segment.des_id);
+        route.push({
+          id: segment.id,
+          sourceType: source.type,
+          sourceLat: parseFloat(source.latitude),
+          sourceLng: parseFloat(source.longitude),
+          destType: dest.type,
+          destLat: parseFloat(dest.latitude),
+          destLng: parseFloat(dest.longitude),
+        });
+      }
+
       const ret = {
-        route: segments,
+        route,
         telemetry,
       };
       console.log(ret);

@@ -13,6 +13,7 @@ module.exports = (knex) => {
   return {
     list: require('./list')(knex, Place),
     create: require('./create')(knex, Place),
+    search: require('./search')(knex, Place),
   };
 };
 
