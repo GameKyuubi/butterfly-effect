@@ -7,13 +7,13 @@ const app = express();
 const api = require('./routes/api');
 const path = require('path');
 
-// app.use(logger('dev'));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname + '/../build')));
-// app.use('/api', api);
+app.use('/api', api);
 
 // catch 404 error
 app.use((req, res) => {
