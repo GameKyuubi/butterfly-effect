@@ -25,7 +25,7 @@ const search = (sendRoute, error) => {
         error('Sorry, this path is currently not available. For more information please contact us.');
       }
     });
-}
+};
 
 const Track = props => (
   <div id="sending-page" className="flex restrict-width grow">
@@ -76,6 +76,9 @@ const Track = props => (
         sendRoute(props.route).then((res) => {
           if (res.status === 'success') {
             props.openDialog(`Your package is on its way! Tracking number: ${res.tracknum}`);
+            document.getElementById('from-address').value = '';
+            document.getElementById('dest-address').value = '';
+            props.resetRoute();
           } else if (res.status === 'error') {
             props.openDialog(`Sending package failed: ${res.message}`);
           }
@@ -170,6 +173,9 @@ const mapDispatchToProps = dispatch => ({
   updateRoute: route => dispatch({
     type: 'UPDATE_ROUTE',
     route,
+  }),
+  resetRoute: () => dispatch({
+    type: 'RESET_ROUTE',
   }),
   openDialog: dialogMessage => dispatch({
     type: 'OPEN_DIALOG',
