@@ -2,7 +2,7 @@ const fetch = require('isomorphic-fetch');
 
 const getLngLat = async (address) => {
   try {
-    const res = await (await fetch(`http://maps.googleapis.com/maps/api/geocode/json?address="${address}"`)).json();
+    const res = await (await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address="${address}"`)).json();
     if (res.status === 'OK' && res.results.length > 0) {
       const location = res.results[0].geometry.location;
       return Object.assign(location, { status: 'success' });
