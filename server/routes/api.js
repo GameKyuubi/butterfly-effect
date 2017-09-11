@@ -8,7 +8,7 @@ const express = require('express');
 const router = express.Router();
 const uuidv4 = require('uuid/v4');
 const Dijkstra = require('../utils/droneController');
-const helper = require('../utils/helper');
+const helper = require('../utils/dbHelper');
 
 const { getStations, storeTrip, storeSegments, storePlaces, getTrip, getSegments, getTelemetry } = helper;
 
