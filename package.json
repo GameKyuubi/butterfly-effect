@@ -28,7 +28,7 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "start": "yarn server",
+    "start": "yarn build && yarn server",
     "server": "node ./server/bin/www",
     "client": "react-scripts start",
     "build": "react-scripts build",
