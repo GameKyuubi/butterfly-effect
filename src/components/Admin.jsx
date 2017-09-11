@@ -36,6 +36,9 @@ const Admin = (props) => {
       mapStyle={props.mapStyle}
       stations={props.stations}
       showStations={props.showStations}
+      selectStation={props.selectStation}
+      selectedStation={props.selectedStation}
+      drones={props.drones}
     />
     <Paper className="details-pane">
       {
@@ -71,9 +74,16 @@ const Admin = (props) => {
   </div>);
 };
 
+const droneIcon = {
+  path: 'M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z',
+  anchor: { x: 5, y: 5 },
+  fillColor: '#40C4FF',
+  fillOpacity: 1.0,
+};
+
 const AdminMap = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={12}
+    defaultZoom={13}
     center={props.mapCenter}
     options={{ styles: props.mapStyle }}
   >
@@ -83,31 +93,36 @@ const AdminMap = withGoogleMap(props => (
           key={station.id}
           position={{ lat: station.lat, lng: station.lng }}
           icon={stationIcon}
+          onClick={() => props.selectStation(station)}
         />)) :
       <div /> }
-    { props.showStations ?
-      props.stations.map(station => (
-        <Circle
-          key={station.id}
-          center={{ lat: station.lat, lng: station.lng }}
-          radius={4000}
-          options={{
-            strokeColor: 'grey',
-            fillColor: 'grey',
-            strokeWeight: 1,
-          }}
-        />)) :
-      <div /> }
+    { props.selectedStation ?
+      <Circle
+        key={props.selectedStation.id}
+        center={{ lat: props.selectedStation.lat, lng: props.selectedStation.lng }}
+        radius={2000}
+        options={{
+          strokeColor: 'grey',
+          fillColor: 'grey',
+          strokeWeight: 1,
+        }}
+      /> :
+      <div />}
+    { props.drones.map(drone =>
+      <Marker key={drone.id} position={{ lat: drone.lat, lng: drone.lng }} icon={droneIcon} />,
+    )}
   </GoogleMap>
 ));
 
 const mapStateToProps = state => ({
+  drones: state.drones,
+  selectedDrone: state.selectedDrone,
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
-  selectedDrone: state.selectedDrone,
   settingPaneOpen: state.settingPaneOpen,
   showStations: state.showStations,
   stations: state.stations,
+  selectedStation: state.selectedStation,
   stationsLoaded: state.stationsLoaded,
 });
 
@@ -126,12 +141,17 @@ const mapDispatchToProps = dispatch => ({
     type: 'UPDATE_STATIONS',
     stations,
   }),
+  selectStation: station => dispatch({
+    type: 'SELECT_STATION',
+    station,
+  }),
 });
 
 Admin.propTypes = {
+  selectedDrone: PropTypes.shape(),
+  drones: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapCenter: PropTypes.shape().isRequired,
   mapStyle: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedDrone: PropTypes.shape(),
   stations: PropTypes.arrayOf(PropTypes.object).isRequired,
   settingPaneOpen: PropTypes.bool.isRequired,
   toggleSettingPane: PropTypes.func.isRequired,
@@ -139,10 +159,13 @@ Admin.propTypes = {
   toggleStations: PropTypes.func.isRequired,
   stationsLoaded: PropTypes.bool.isRequired,
   updateStations: PropTypes.func.isRequired,
+  selectStation: PropTypes.func.isRequired,
+  selectedStation: PropTypes.shape(),
 };
 
 Admin.defaultProps = {
   selectedDrone: null,
+  selectedStation: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);
