@@ -1,6 +1,7 @@
 const helper = require('../server/utils/dbHelper');
 const { getStations } = helper;
 const fs = require('fs');
+const checkSpace = require('../server/lib/AirspaceChecker.js').checkSpace;
 
 const distance = (a, b) => {
   function deg2rad(deg) {
@@ -33,8 +34,13 @@ const distance = (a, b) => {
         continue;
       }
       if (distance(stations[point], stations[adj]) <= 2 ) {
-        graph[point] = graph[point] || {};
-        graph[point][adj] = distance(stations[point], stations[adj]);
+        // check for airmap shit
+        let origin = [stations[point].lat, stations[point].lng];
+        let destination = [stations[adj].lat, stations[adj].lng];
+        if (checkSpace(origin, destination)) {
+          graph[point] = graph[point] || {};
+          graph[point][adj] = distance(stations[point], stations[adj]);
+        }
       }
     }
   }
