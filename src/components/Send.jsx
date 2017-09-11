@@ -13,6 +13,20 @@ import sendRoute from '../utils/sendRoute';
 
 import './styles/send.css';
 
+const search = (sendRoute, error) => {
+  getRoute(document.getElementById('from-address').value, document.getElementById('dest-address').value)
+    .then((response) => {
+      sendRoute(response.path);
+      if (response.message === 'Could not find location.') {
+        error('Could not find location.');
+      } else if (response.message === 'Error occured while fetching from API.') {
+        error('Error occured while fetching from API.');
+      } else if (response.status === 'ok' && response.path.length === 0) {
+        error('Sorry, this path is currently not available. For more information please contact us.');
+      }
+    });
+}
+
 const Track = props => (
   <div id="sending-page" className="flex restrict-width grow">
     <div id="sending-search-pane" className="flex">
@@ -22,6 +36,7 @@ const Track = props => (
           id="from-address"
           className="sending-address-box grow"
           hintText="Address"
+          onKeyDown={event => event.keyCode === 13 ? search(props.updateRoute, props.openDialog) : {}}
         />
       </Paper>
       <Paper className="sending-address-pane flex grow" zDepth={1}>
@@ -30,25 +45,14 @@ const Track = props => (
           id="dest-address"
           className="sending-address-box grow"
           hintText="Address"
+          onKeyDown={event => event.keyCode === 13 ? search(props.updateRoute, props.openDialog) : {}}
         />
       </Paper>
       <RaisedButton
         primary
         label="Search"
         className="sending-search-button"
-        onClick={() => {
-          getRoute(document.getElementById('from-address').value, document.getElementById('dest-address').value)
-            .then((response) => {
-              props.updateRoute(response.path);
-              if (response.message === 'Could not find location.') {
-                props.openDialog('Could not find location.');
-              } else if (response.message === 'Error occured while fetching from API.') {
-                props.openDialog('Error occured while fetching from API.');
-              } else if (response.status === 'ok' && response.path.length === 0) {
-                props.openDialog('Sorry, this path is currently not available. For more information please contact us.');
-              }
-            });
-        }}
+        onClick={() => search(props.updateRoute, props.openDialog)}
       />
     </div>
 
