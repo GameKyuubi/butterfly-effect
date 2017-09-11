@@ -18,6 +18,7 @@ router.get('/stations', async (req, res) => {
     console.log(`Stations near Tokyo: ${stations.length}`);
     res.status(200).json(stations);
   } catch (err) {
+    console.error('Error connecting db:', err);
     res.status(400).json({ status: 'error', message: 'Bad Request' });
   }
 });
@@ -31,6 +32,7 @@ router.post('/calculate', async (req, res) => {
     console.log('result', result);
     res.json(result);
   } catch (err) {
+    console.error('Error connecting db:', err);
     res.status(400).json({ status: 'error', message: 'Bad Request' });
   }
 });
@@ -56,9 +58,9 @@ router.post('/routes', async (req, res) => {
           longitude: routes[i].lng,
         };
         if (routes[i].name === 'source') {
-          sourceId = (await storePlaces(route)).id;
+          sourceId = await storePlaces(route);
         } else {
-          desId = (await storePlaces(route)).id;
+          desId = await storePlaces(route);
         }
       }
     }
@@ -96,6 +98,7 @@ router.post('/routes', async (req, res) => {
     console.log(ret);
     res.status(200).json(ret);
   } catch (err) {
+    console.error('Error connecting db:', err);
     res.status(400).json({ status: 'error', message: 'Bad Request' });
   }
 });
@@ -137,6 +140,7 @@ router.post('/track', async (req, res) => {
     console.log('ret', ret);
     res.status(200).json(ret);
   } catch (err) {
+    console.error('Error connecting db:', err);
     res.status(400).json({ status: 'error', message: 'Bad Request' });
   }
 });

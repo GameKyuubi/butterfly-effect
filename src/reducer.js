@@ -3,9 +3,11 @@ import mapStyle from './resources/mapStyle';
 const initialState = {
   selectedPage: 'home',
   mapCenter: { lat: 35.6895, lng: 139.6917 },
+  drones: [],
   selectedDrone: null,
   stations: [],
   stationsLoaded: false,
+  trackedPackage: { route: [] },
   settingPaneOpen: false,
   showStations: true,
   route: [],
@@ -25,13 +27,17 @@ const reducer = (state = initialState, action) => {
     case 'TOGGLE_STATIONS':
       return Object.assign({}, state, { showStations: !state.showStations });
     case 'UPDATE_ROUTE':
-      return Object.assign({}, state, { route: action.route });
+      return Object.assign({}, state, { route: action.route, selectedStation: null });
     case 'UPDATE_STATIONS':
       return Object.assign({}, state, { stations: action.stations, stationsLoaded: true });
+    case 'SELECT_STATION':
+      return Object.assign({}, state, { selectedStation: action.station });
     case 'OPEN_DIALOG':
       return Object.assign({}, state, { dialogOpen: true, dialogMessage: action.dialogMessage });
     case 'CLOSE_DIALOG':
       return Object.assign({}, state, { dialogOpen: false });
+    case 'UPDATE_TRACKED_PACKAGE':
+      return Object.assign({}, state, { trackedPackage: action.trackedPackage });
     default:
       return state;
   }
