@@ -28,6 +28,8 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { showStations: !state.showStations });
     case 'UPDATE_ROUTE':
       return Object.assign({}, state, { route: action.route, selectedStation: null });
+    case 'RESET_ROUTE':
+      return Object.assign({}, state, { route: [], selectedStation: null });
     case 'UPDATE_STATIONS':
       return Object.assign({}, state, { stations: action.stations, stationsLoaded: true });
     case 'SELECT_STATION':
