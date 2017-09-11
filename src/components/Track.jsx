@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -108,7 +109,7 @@ const TrackMap = withGoogleMap(props => (
     { props.package.route.length ?
       <Polyline
         path={(() => {
-          let array = props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }));
+          const array = props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }));
           array.unshift({ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng });
           return array;
         })()}
