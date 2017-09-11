@@ -2,6 +2,7 @@ const helper = require('../server/utils/dbHelper');
 const { getStations } = helper;
 const fs = require('fs');
 const checkSpace = require('../server/lib/AirspaceChecker.js').checkSpace;
+const _ = require('underscore');
 
 const distance = (a, b) => {
   function deg2rad(deg) {
@@ -28,8 +29,10 @@ const distance = (a, b) => {
   }
 
   let graph = {};
+  let counter = 1;
   for (let point in stations) {
     for (let adj in stations) {
+      counter++;
       if (point === adj) {
         continue;
       }
@@ -37,15 +40,16 @@ const distance = (a, b) => {
         // check for airmap shit
         let origin = [stations[point].lat, stations[point].lng];
         let destination = [stations[adj].lat, stations[adj].lng];
-        if (checkSpace(origin, destination)) {
+        let valid = await checkSpace(origin, destination);
+        if (valid) {
+          console.log('IT IS VALID!!');
           graph[point] = graph[point] || {};
           graph[point][adj] = distance(stations[point], stations[adj]);
         }
       }
     }
   }
-
-  fs.writeFileSync('../server/utils/graph.json', JSON.stringify(graph));
+  fs.writeFileSync('./data/graph.json', JSON.stringify(graph));
   console.log('All done!');
   process.exit();
 })();
