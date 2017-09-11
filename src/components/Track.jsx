@@ -105,10 +105,17 @@ const TrackMap = withGoogleMap(props => (
         }}
       /> :
       <div />}
-    <Polyline
-      path={props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }))}
-      strokeColor={'#1FBCD2'}
-    />
+    { props.package.route.length ?
+      <Polyline
+        path={(() => {
+          let array = props.package.route.map(route => ({ lat: route.destLat, lng: route.destLng }));
+          array.unshift({ lat: props.package.route[0].sourceLat, lng: props.package.route[0].sourceLng });
+          return array;
+        })()}
+        strokeColor={'#1FBCD2'}
+      /> :
+      <div />
+    }
   </GoogleMap>
 ));
 
