@@ -1,8 +1,7 @@
 # Butterfly Effect
 
 ## Summary
-
-INSERT SUMMARY
+A mock drone delivery service using AirMap API
 
 ## Technologies Used
 - [AirMap API](https://developers.airmap.com/)
@@ -25,7 +24,7 @@ OR
 ```
 yarn install
 ```
-To populate preset-data:(Should run once only)
+To populate preset-data:(Should run only once)
 ```
 cd scripts
 node populate-stations.js
