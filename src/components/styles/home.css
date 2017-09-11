@@ -23,3 +23,8 @@
 #home ol li {
   line-height: 1.75em;
 }
+
+#home ul {
+  margin-left: 18px;
+  margin-bottom: 10px;
+}
