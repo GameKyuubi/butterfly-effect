@@ -3,8 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withGoogleMap, GoogleMap, Marker, Polyline, Circle } from 'react-google-maps';
+
 import Paper from 'material-ui/Paper';
 import Icon from 'material-ui/SvgIcon';
+import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -13,6 +15,14 @@ import track from '../utils/track';
 import './styles/track.css';
 
 const svgString = 'M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z';
+
+const search = (updateTrackedPackage, error) => {
+  const trackingNumber = document.getElementById('tracking-number').value;
+  track(trackingNumber)
+    .then(response => response.status === 'error' ?
+      error(response.message) :
+      updateTrackedPackage(response));
+}
 
 const Track = props => (
   <div id="tracking-page" className="flex restrict-width grow">
@@ -25,17 +35,14 @@ const Track = props => (
           id="tracking-number"
           className="tracking-number-box grow"
           hintText="Tracking Number"
+          onKeyDown={event => event.keyCode === 13 ? search(props.updateTrackedPackage, props.openDialog) : {}}
         />
       </Paper>
       <RaisedButton
         primary
         label="Search"
         className="tracking-search-button"
-        onClick={() => {
-          const trackingNumber = document.getElementById('tracking-number').value;
-          track(trackingNumber)
-            .then(response => props.updateTrackedPackage(response));
-        }}
+        onClick={() => search(props.updateTrackedPackage, props.openDialog)}
       />
     </div>
 
@@ -48,6 +55,22 @@ const Track = props => (
         package={props.package}
       />
     </div>
+
+    <Dialog
+      title="Airborne"
+      actions={[
+        <RaisedButton
+          label="OK"
+          primary
+          onClick={props.closeDialog}
+        />,
+      ]}
+      modal
+      open={props.dialogOpen}
+      onRequestClose={props.closeDialog}
+    >
+      {props.dialogMessage}
+    </Dialog>
   </div>
 );
 
@@ -128,6 +151,8 @@ const mapStateToProps = state => ({
   mapCenter: state.mapCenter,
   mapStyle: state.mapStyle,
   package: state.trackedPackage,
+  dialogOpen: state.dialogOpen,
+  dialogMessage: state.dialogMessage,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -138,6 +163,13 @@ const mapDispatchToProps = dispatch => ({
   updateTrackedPackage: trackedPackage => dispatch({
     type: 'UPDATE_TRACKED_PACKAGE',
     trackedPackage,
+  }),
+  openDialog: dialogMessage => dispatch({
+    type: 'OPEN_DIALOG',
+    dialogMessage,
+  }),
+  closeDialog: () => dispatch({
+    type: 'CLOSE_DIALOG',
   }),
 });
 
