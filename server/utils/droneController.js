@@ -31,6 +31,10 @@ class DroneController {
     let stationLocation;
     let first = true;
     for (let station in this.stations) {
+      // console.log(this.stations, point)
+      if (!point || !this.stations[station]) {
+        continue;
+      }
       let distance = this.distance(point, {
         lat: this.stations[station].lat,
         lng: this.stations[station].lng
@@ -75,20 +79,23 @@ class DroneController {
     this.graph = {};
     let promises = [];
     for (let point in this.stations) {
+      if (!this.stations[point] || !this.stations[point].lat || !this.stations[point].lng) continue;
+
       for (let adj in this.stations) {
+        if (!this.stations[adj] || !this.stations[adj].lat || !this.stations[adj].lng) continue;
         if (point === adj) {
           continue;
         }
         if (this.distance(this.stations[point], this.stations[adj]) <= this.options.MAX_DISTANCE){
           promises.push( new Promise((resolve,reject) => {
             setTimeout(() => {
-              console.log('here')
               let notBanned = (AirspaceChecker.checkSpace
                 ([this.stations[point].lat, this.stations[point].lng], [this.stations[adj].lat, this.stations[adj].lng]));
               if (notBanned) {
                 this.graph[point] = this.graph[point] || {};
                 this.graph[point][adj] = this.distance(this.stations[point], this.stations[adj]);
               }
+              resolve();
             }, 10 * c++ );
           }).catch(err => {
             console.log(err);
@@ -153,7 +160,7 @@ class DroneController {
   }
 
   async solve() {
-    await this.constructGraph().then(() => {
+    return await this.constructGraph().then(() => {
       this.dijkstra();
       console.log('dijkstra ended');
       if (this.path === undefined && this.minDistance === undefined) {
@@ -185,7 +192,6 @@ class DroneController {
           lng: this.path[i].lng,
         });
       }
-      console.log('graph: ', this.graph)
       return {
         distance: this.minDistance,
         path: route
