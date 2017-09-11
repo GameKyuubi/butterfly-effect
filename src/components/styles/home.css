@@ -6,7 +6,25 @@
   margin-top: 20px;
 }
 
+#home h2 {
+  margin-top: 15px;
+}
+
 #home p {
   margin: 10px 0;
   line-height: 1.75em;
+}
+
+#home ol {
+  margin-top: 15px;
+  margin-left: 18px;
+}
+
+#home ol li {
+  line-height: 1.75em;
+}
+
+#home ul {
+  margin-left: 18px;
+  margin-bottom: 10px;
 }
