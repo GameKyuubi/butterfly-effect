@@ -75,6 +75,14 @@ const storePlaces = async (route) => {
   return placeId[0];
 };
 
+const getPlace = async (palceId) => {
+  const place = await db('place')
+    .where({ id: palceId })
+    .select();
+  console.log('place id:', place[0]);
+  return place[0];
+};
+
 const getTrip = async (tracknum) => {
   const trip = await db('trip')
     .where({ tracknum })
@@ -95,8 +103,8 @@ const getTelemetry = async (droneId) => {
   const telemetry = await db('telemetry')
     .where({ drone_id: droneId })
     .select();
-  console.log('telemetry:', telemetry);
-  return telemetry;
+  console.log('telemetry:', telemetry[0]);
+  return telemetry[0];
 };
 
-module.exports = { getStations, storeTrip, storeSegments, storePlaces, getTrip, getSegments, getTelemetry };
+module.exports = { getStations, storeTrip, storeSegments, storePlaces, getPlace, getTrip, getSegments, getTelemetry };

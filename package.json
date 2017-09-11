@@ -33,8 +33,9 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "start": "yarn build && yarn server",
-    "server": "node ./server/bin/www",
+    "start": "yarn build && yarn heroku",
+    "heroku": "node ./server/bin/www",
+    "server": "nodemon ./server/bin/www",
     "client": "react-scripts start",
     "build": "react-scripts build",
     "test:eslint": "eslint --ext=js --ext=jsx .",
@@ -50,6 +51,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^3.5.0",
+    "nodemon": "^1.12.0",
     "stylelint": "^8.1.0",
     "stylelint-config-standard": "^17.0.0"
   },
