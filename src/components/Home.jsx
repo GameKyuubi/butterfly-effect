@@ -4,7 +4,7 @@ import './styles/home.css';
 
 const Home = () => (
   <div id="home" className="restrict-width">
-    <h1>{'Airborne'}</h1>
+    <h1>{'Relay'}</h1>
     <p>{'World\'s first autonomous drone delivery routing system.'}</p>
     <h2>{'Instructions'}</h2>
     <ol>
