@@ -12,9 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+app.use(express.static(path.join(__dirname + '/../build')));
 app.use('/api', api);
 
 // catch 404 error
