@@ -41,6 +41,7 @@ const getRoute = async (from, dest) => {
     response.status = 'ok';
     return response;
   } catch (err) {
+    console.log('err', err)
     return { status: 'error', message: 'Error occured while fetching from API.', path: [] };
   }
 };

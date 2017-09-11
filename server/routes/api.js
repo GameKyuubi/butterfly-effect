@@ -28,7 +28,7 @@ router.post('/calculate', async (req, res) => {
     const stations = await getStations();
     console.log(`Stations near Tokyo: ${stations.length}`);
     const dijkstra = new Dijkstra(req.body.from, req.body.dest, { MAX_DISTANCE: 2 }, stations);
-    const result = dijkstra.solve();
+    const result = await dijkstra.solve();
     console.log('result', result);
     res.json(result);
   } catch (err) {
