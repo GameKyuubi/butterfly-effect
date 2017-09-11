@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
     case 'SET_MAP_CENTER':
       return Object.assign({}, state, { mapCenter: action.center });
     case 'CHANGE_PAGE':
-      return Object.assign({}, state, { selectedPage: action.page });
+      return Object.assign({}, state, { selectedPage: action.page, selectedStation: null });
     case 'TOGGLE_SETTING':
       return Object.assign({}, state, { settingPaneOpen: !state.settingPaneOpen });
     case 'TOGGLE_STATIONS':

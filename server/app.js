@@ -4,10 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const app = express();
-
-const config = require('./config.js');
-const services = require('../services')(config);
-const api = require('./routes/api')(services);
+const api = require('./routes/api');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
