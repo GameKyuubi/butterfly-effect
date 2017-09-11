@@ -3,7 +3,7 @@ module.exports = {
   db: {
     client: 'pg',
     connection: {
-      host: '127.0.0.1',
+      host: process.env.DATABASE_URL || `127.0.0.1`,
       database: 'air_delivery',
     },
     port: 5432,
