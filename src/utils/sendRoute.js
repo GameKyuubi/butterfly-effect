@@ -1,6 +1,6 @@
 const fetch = require('isomorphic-fetch');
 
-const getRoute = async (route) => {
+const sendRoute = async (route) => {
   try {
     const params = {
       route,
@@ -21,4 +21,4 @@ const getRoute = async (route) => {
   }
 };
 
-export default getRoute;
+export default sendRoute;
