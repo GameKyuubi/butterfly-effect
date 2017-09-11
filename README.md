@@ -63,15 +63,13 @@ If you are using VSCode or SublimeText or another IDE/text editor, you can use o
 
 
 ## Issues
-
-// where it is on trello
+If you spot any bugs or possible improvements, you can add it to the GitHub issues.
 
 ## Backlog
+If you'd like to contribute, you can comment and work on any of the tickets currently in the GitHub issues.
 
 ## Contributions & PR Rules
 1. All pull requests must be connected to an issue/user story.
 1. TESTS! You need tests.
 1. At least two people on the team AND the product manager must review and accept the pull request before merging.
 1. We will be following AirBnb and StyleLint styles.
-
-
