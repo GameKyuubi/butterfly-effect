@@ -134,14 +134,14 @@ router.post('/track', async (req, res) => {
     }
 
     const ret = {
+      status: 'success',
       route,
       telemetry,
     };
     console.log('ret', ret);
     res.status(200).json(ret);
   } catch (err) {
-    console.error('Error connecting db:', err);
-    res.status(400).json({ status: 'error', message: 'Bad Request' });
+    res.status(400).json({ status: 'error', message: err.message });
   }
 });
 

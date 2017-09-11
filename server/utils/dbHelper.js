@@ -88,6 +88,7 @@ const getTrip = async (tracknum) => {
     .where({ tracknum })
     .select();
   console.log('trip:', trip);
+  if(trip.length === 0) throw new Error('Package not found. Please check your tracking number.');
   return trip[0];
 };
 
