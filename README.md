@@ -11,7 +11,7 @@ A mock drone delivery service using AirMap API
 - React.js([create-react-app](https://github.com/facebookincubator/create-react-app), [react-google-maps](https://github.com/tomchentw/react-google-maps)), Redux
 - google-material-ui
 - scraping
-  - Station data is collected by scraping [Here](https://en.wikipedia.org/wiki/List_of_railway_stations_in_Japan:_A) for a list of station names in Japan and then getting their latitude and longitude from the Google geocoding API.
+  - Station data is collected by scraping [Wikipedia](https://en.wikipedia.org/wiki/List_of_railway_stations_in_Japan:_A) for a list of station names in Japan and then getting their latitude and longitude from the Google geocoding API.
   - You can scrape the data again yourself by inserting a Google API key in `scrape-station-names.js` on line 8 and running `node scrape-station-names.js`.
 
 ## Environment & Set Up
