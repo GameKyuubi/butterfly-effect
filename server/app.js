@@ -5,12 +5,16 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const api = require('./routes/api');
+const path = require('path');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
 app.use('/api', api);
 
 // catch 404 error
