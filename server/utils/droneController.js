@@ -69,8 +69,22 @@ class DroneController {
   }
   
   constructGraph() {
-    this.graph = JSON.parse(fs.readFileSync(__dirname + '/graph.json'));
-    console.log(this.graph);
+    this.graph = JSON.parse(fs.readFileSync(__dirname + '/graph2.json'));
+    this.graph.source = {};
+    this.graph.destination = {};
+
+    for (let id in this.stations) {
+      if (this.distance(this.stations[id], this.source) <= 2 ) {
+        this.graph[id] = this.graph[id] || {};
+        this.graph[id].source = this.distance(this.stations[id], this.source);
+        this.graph.source[id] = this.distance(this.stations[id], this.source);
+      }
+      if (this.distance(this.stations[id], this.destination) <= 2 ) {
+        this.graph[id] = this.graph[id] || {};
+        this.graph[id].destination = this.distance(this.stations[id], this.destination);
+        this.graph.destination[id] = this.distance(this.stations[id], this.destination);
+      }
+    }
   }
   
   calculatePath(parrents) {
