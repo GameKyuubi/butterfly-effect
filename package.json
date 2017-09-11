@@ -29,7 +29,7 @@
   "scripts": {
     "precommit": "lint-staged",
     "start": "yarn server",
-    "server": "nodemon ./server/bin/www",
+    "server": "node ./server/bin/www",
     "client": "react-scripts start",
     "build": "react-scripts build",
     "test:eslint": "eslint --ext=js --ext=jsx .",
