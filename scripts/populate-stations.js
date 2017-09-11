@@ -8,7 +8,7 @@ const knex = require('knex');
 
 const db = knex({
   client: 'pg',
-  connection: `postgres://jtxdganycxtmgp:b5404bc10ef9c9987889ad723187b170e6ff9a180f4a06505b6ed3f0c0ba350c@ec2-23-21-85-76.compute-1.amazonaws.com:5432/dduuf6lhuoois8`,
+  connection: process.env.DATABASE_URL || `postgres://${process.env.USER}@127.0.0.1:5432/air_delivery`,
   searchPath: 'public',
 });
 
