@@ -3,9 +3,12 @@
 /* eslint-disable */
 
 const fetch = require('isomorphic-fetch');
+import AirspaceChecker from '../lib/AirspaceChecker';
 
 class DroneController {
   constructor(source, destination, options, data) {
+    const airspaceChecker = new AirspaceChecker();
+    this.checkSpace = airspaceChecker.checkSpace;
     this.stations = {};
     for(let station of data){
       this.stations[station.id] = {};
@@ -20,6 +23,7 @@ class DroneController {
     this.stations.source = this.source;
     this.stations.destination = this.destination;
     this.firstStation = this.findNearestStation(source);
+    
   }
 
   findNearestStation(point) {
@@ -74,7 +78,8 @@ class DroneController {
         if (point === adj) {
           continue;
         }
-        if (this.distance(this.stations[point], this.stations[adj]) <= this.options.MAX_DISTANCE ) {
+        if (this.distance(this.stations[point], this.stations[adj]) <= this.options.MAX_DISTANCE
+        && this.checkSpace([this.stations[point].lat, this.stations[point].lng], [this.stations[adj].lat, this.stations[adj].lng])) {
           this.graph[point] = this.graph[point] || {};
           this.graph[point][adj] = this.distance(this.stations[point], this.stations[adj]);
         }
